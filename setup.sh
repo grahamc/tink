@@ -297,14 +297,8 @@ setup_osie() {
 		mkdir -p "$osie_current"
 		mkdir -p "$tink_workflow"
 		pushd /tmp
-
-		if [ -z "${TB_OSIE_TAR:-}" ]; then
-			curl 'https://tinkerbell-oss.s3.amazonaws.com/osie-uploads/latest.tar.gz' -o osie.tar.gz
-			tar -zxf osie.tar.gz
-		else
-			tar -zxf "$TB_OSIE_TAR"
-		fi
-
+		curl 'https://tinkerbell-oss.s3.amazonaws.com/osie-uploads/latest.tar.gz' -o osie.tar.gz
+		tar -zxf osie.tar.gz
 		if pushd /tmp/osie*/; then
 			if mv workflow-helper.sh workflow-helper-rc "$tink_workflow"; then
 				cp -r ./* "$osie_current"
@@ -363,7 +357,7 @@ generate_certificates() {
 	if [ -d "$deploy"/certs ]; then
 		echo "$WARN found certs directory"
 		if grep -q "\"$TINKERBELL_HOST_IP\"" "$deploy"/tls/server-csr.in.json; then
-			echo "$WARN found server entry in TLS"
+			echo "$WARN found server enty in TLS"
 			echo "$INFO found existing certificates for host $TINKERBELL_HOST_IP, skipping certificate generation"
 		else
 			gen_certs
