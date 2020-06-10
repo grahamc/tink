@@ -355,7 +355,7 @@ gen_certs() (
 		--user "$UID:$(id -g)" \
 		tinkerbell-certs
 
-	certs_dir="/etc/docker/certs.d/$TINKERBELL_HOST_IP"
+	local certs_dir="/etc/docker/certs.d/$TINKERBELL_HOST_IP"
 
 	# copy public key to NGINX for workers
 	if ! cmp --quiet "$DEPLOYDIR"/certs/ca.pem "$DEPLOYDIR/webroot/workflow/ca.pem"; then
