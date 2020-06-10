@@ -119,6 +119,9 @@ setup_networking() (
 )
 
 setup_networking_manually() (
+	local distro=$1
+	local version=$2
+
 	echo "$ERR this setup script cannot configure $distro ($version)"
 	echo "$BLANK please read this script's source and configure it manually."
 	exit 1
