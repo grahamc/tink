@@ -215,6 +215,9 @@ EOF
 )
 
 setup_networking_centos() (
+	local HWADDRESS
+	local content
+
 	HWADDRESS=$(ip addr show "$TINKERBELL_NETWORK_INTERFACE" | grep ether | awk -F 'ether' '{print $2}' | cut -d" " -f2)
 	content=$(
 		cat <<EOF
