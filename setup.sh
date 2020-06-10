@@ -287,6 +287,8 @@ check_container_status() (
 	local container_id
 	container_id=$(docker-compose -f "$(pwd)"/deploy/docker-compose.yml ps -q "$container_name")
 
+	local start_moment
+	local current_status
 	start_moment=$(docker inspect "${container_id}" --format '{{ .State.StartedAt }}')
 	current_status=$(docker inspect "${container_id}" --format '{{ .State.Health.Status }}')
 
