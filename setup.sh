@@ -401,8 +401,8 @@ docker_login() (
 # push it using the second one. usueful to proxy images from a repository to
 # another.
 docker_mirror_image() (
-	from=$1
-	to=$2
+	local from=$1
+	local to=$2
 
 	docker pull "$from"
 	docker tag "$from" "$to"
