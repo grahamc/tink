@@ -424,7 +424,7 @@ bootstrap_docker_registry() (
 )
 
 setup_docker_registry() (
-	registry_images="$DEPLOYDIR/registry"
+	local registry_images="$DEPLOYDIR/registry"
 	if [ ! -d "$registry_images" ]; then
 		mkdir -p "$registry_images"
 	fi
