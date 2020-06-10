@@ -309,6 +309,7 @@ check_container_status() (
 			;;
 	esac
 
+	local status
 	read status < <(docker events \
 			--since "$start_moment" \
 			--filter "container=$container_id" \
