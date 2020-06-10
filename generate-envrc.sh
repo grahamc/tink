@@ -44,8 +44,8 @@ generate_password() (
 	head -c 12 /dev/urandom | sha256sum | cut -d' ' -f1
 )
 
-generate_envrc() {
-	tink_interface=$1
+generate_envrc() (
+	local tink_interface=$1
 
 	validate_tinkerbell_network_interface "$tink_interface"
 
