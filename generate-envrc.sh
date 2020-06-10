@@ -49,7 +49,8 @@ generate_envrc() (
 
 	validate_tinkerbell_network_interface "$tink_interface"
 
-	local registry_password=$(generate_password)
+	local registry_password
+	registry_password=$(generate_password)
 	cat <<EOF
 # Network interface for Tinkerbell's network
 export TINKERBELL_NETWORK_INTERFACE="$tink_interface"
