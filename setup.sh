@@ -285,7 +285,7 @@ setup_osie() (
 check_container_status() (
 	local container_name="$1"
 	local container_id
-	container_id=$(docker-compose -f "$(pwd)"/deploy/docker-compose.yml ps -q "$container_name")
+	container_id=$(docker-compose -f "$DEPLOYDIR/docker-compose.yml" ps -q "$container_name")
 
 	local start_moment
 	local current_status
