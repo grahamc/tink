@@ -343,7 +343,7 @@ gen_certs() (
 			| .names[0].L = $facility
 			| .hosts = (.hosts | sort | unique)
 			' \
-			./deploy/tls/server-csr.in.json \
+			"$DEPLOYDIR/tls/server-csr.in.json" \
 			--arg ip "$TINKERBELL_HOST_IP" \
 			--arg facility "$FACILITY" \
 			>"$DEPLOYDIR/certs/server-csr.json"
