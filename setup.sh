@@ -96,8 +96,8 @@ identify_network_strategy() (
 )
 
 setup_networking() (
-	distro=$1
-	version=$2
+	local distro=$1
+	local version=$2
 
 	setup_network_forwarding
 
