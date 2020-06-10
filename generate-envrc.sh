@@ -83,7 +83,7 @@ export FACILITY=onprem
 export ROLLBAR_TOKEN=ignored
 export ROLLBAR_DISABLE=1
 EOF
-}
+)
 
 main() (
 	if [ -z "${1:-}" ]; then
