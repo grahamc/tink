@@ -18,6 +18,5 @@ mkShell {
     shfmt
     shellcheck
     terraform
-    jq
   ];
 }
