@@ -74,6 +74,27 @@ is_network_configured() (
 	return 0
 )
 
+identify_network_strategy() (
+	distro=$1
+	version=$2
+
+	case "$distro" in
+	ubuntu)
+		if jq -n --exit-status '$distro_version >= 17.10' --argjson distro_version "$version"; then
+			echo "setup_networking_netplan"
+		else
+			echo "setup_networking_ubuntu_legacy"
+		fi
+		;;
+	centos)
+		echo "setup_networking_centos"
+		;;
+	*)
+		echo "setup_networking_manually"
+		;;
+	esac
+)
+
 setup_networking() (
 	distro=$1
 	version=$2
@@ -85,28 +106,21 @@ setup_networking() (
 		return 0
 	fi
 
-	case "$distro" in
-	ubuntu)
-		if jq -n --exit-status '$distro_version >= 17.10' --argjson distro_version "$version"; then
-			setup_networking_netplan
-		else
-			setup_networking_ubuntu_legacy
-		fi
-		;;
-	centos)
-		setup_networking_centos
-		;;
-	*)
-		echo "$ERR this setup script cannot configure $distro ($version)"
-		echo "$BLANK please read this script's source and configure it manually."
-		exit 1
-		;;
-	esac
+	strategy=$(identify_network_strategy "$distro" "$version")
+
+	"${strategy}" # execute the strategy
+
 	if is_network_configured; then
 		echo "$INFO tinkerbell network interface configured successfully"
 	else
 		echo "$ERR tinkerbell network interface configuration failed"
 	fi
+)
+
+setup_networking_manually() (
+	echo "$ERR this setup script cannot configure $distro ($version)"
+	echo "$BLANK please read this script's source and configure it manually."
+	exit 1
 )
 
 setup_network_forwarding() (
@@ -431,13 +445,38 @@ check_command() (
 )
 
 check_prerequisites() (
-	echo "$INFO verifying prerequisites"
+	distro=$1
+	version=$2
+
+	echo "$INFO verifying prerequisites for $distro ($version)"
 	failed=0
-	check_command git || failed=1
-	check_command jq || failed=1
-	check_command ifup || failed=1
 	check_command docker || failed=1
 	check_command docker-compose || failed=1
+	check_command git || failed=1
+	check_command ip || failed=1
+	check_command jq || failed=1
+
+	strategy=$(identify_network_strategy "$distro" "$version")
+	case "$strategy" in
+		"setup_networking_netplan")
+			check_command netplan || failed=1
+			;;
+		"setup_networking_ubuntu_legacy")
+			check_command ifdown || failed=1
+			check_command ifup || failed=1
+			;;
+		"setup_networking_centos")
+			check_command ifdown || failed=1
+			check_command ifup || failed=1
+			;;
+		"setup_networking_manually")
+			echo "$WARN this script cannot automatically configure your network."
+			;;
+		*)
+			echo "$ERR bug: unhandled network strategy: $strategy"
+			exit 1
+			;;
+	esac
 
 	if [ $failed -eq 1 ]; then
 		echo "$ERR Prerequisites not met. Please install the missing commands and re-run $0."
@@ -457,7 +496,7 @@ do_setup() (
 	lsb_version=$(get_distro_version)
 
 	echo "$INFO starting tinkerbell stack setup"
-	check_prerequisites "$lsb_dist"
+	check_prerequisites "$lsb_dist" "$lsb_version"
 
 	if [ ! -f "$ENV_FILE" ]; then
 		echo "$ERR Run './generate-envrc.sh network-interface > \"$ENV_FILE\"' before continuing."
