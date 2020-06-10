@@ -29,7 +29,8 @@ candidate_interfaces() (
 )
 
 validate_tinkerbell_network_interface() (
-	tink_interface=$1
+	local tink_interface=$1
+
 	if ! candidate_interfaces | grep -q "^$tink_interface$"; then
 		err "Invalid interface ($tink_interface) selected, must be one of:"
 		candidate_interfaces | err
