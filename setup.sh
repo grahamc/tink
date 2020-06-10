@@ -109,7 +109,7 @@ setup_networking() (
 	local strategy
 	strategy=$(identify_network_strategy "$distro" "$version")
 
-	"${strategy}" # execute the strategy
+	"${strategy}" "$distro" "$version" # execute the strategy
 
 	if is_network_configured; then
 		echo "$INFO tinkerbell network interface configured successfully"
