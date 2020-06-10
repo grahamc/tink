@@ -106,6 +106,7 @@ setup_networking() (
 		return 0
 	fi
 
+	local strategy
 	strategy=$(identify_network_strategy "$distro" "$version")
 
 	"${strategy}" # execute the strategy
