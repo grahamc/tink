@@ -341,7 +341,7 @@ gen_certs() (
 	docker build --tag "tinkerbell-certs" "$DEPLOYDIR/tls"
 	docker run --rm \
 		--volume "$DEPLOYDIR/certs:/certs" \
-		--user "$UID:$GID" \
+		--user "$UID:$(id -g)" \
 		tinkerbell-certs
 
 	certs_dir="/etc/docker/certs.d/$TINKERBELL_HOST_IP"
