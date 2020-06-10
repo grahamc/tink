@@ -254,8 +254,8 @@ EOF
 setup_osie() (
 	mkdir -p "$DEPLOYDIR/webroot"
 
-	osie_current=$DEPLOYDIR/webroot/misc/osie/current
-	tink_workflow=$DEPLOYDIR/webroot/workflow/
+	local osie_current=$DEPLOYDIR/webroot/misc/osie/current
+	local tink_workflow=$DEPLOYDIR/webroot/workflow/
 	if [ ! -d "$osie_current" ] && [ ! -d "$tink_workflow" ]; then
 		mkdir -p "$osie_current"
 		mkdir -p "$tink_workflow"
