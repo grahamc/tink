@@ -283,7 +283,8 @@ setup_osie() (
 )
 
 check_container_status() (
-	container_name="$1"
+	local container_name="$1"
+	local container_id
 	container_id=$(docker-compose -f "$(pwd)"/deploy/docker-compose.yml ps -q "$container_name")
 
 	start_moment=$(docker inspect "${container_id}" --format '{{ .State.StartedAt }}')
