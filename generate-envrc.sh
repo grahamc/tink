@@ -24,8 +24,7 @@ err() (
 candidate_interfaces() (
 	ip -o link show |
 		awk -F': ' '{print $2}' |
-		sed 's/[ \t].*//;/^\(lo\|\)$/d' |
-		sed 's/[ \t].*//;/^\(bond0\|\)$/d' |
+		sed 's/[ \t].*//;/^\(lo\|bond0\|\|\)$/d' |
 		sort
 )
 
