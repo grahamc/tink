@@ -75,8 +75,8 @@ is_network_configured() (
 )
 
 identify_network_strategy() (
-	distro=$1
-	version=$2
+	local distro=$1
+	local version=$2
 
 	case "$distro" in
 	ubuntu)
