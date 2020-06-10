@@ -49,7 +49,7 @@ get_distribution() (
 )
 
 get_distro_version() (
-	lsb_version="0"
+	local lsb_version="0"
 	# Every system that we officially support has /etc/os-release
 	if [ -r /etc/os-release ]; then
 		# shellcheck disable=SC1091
