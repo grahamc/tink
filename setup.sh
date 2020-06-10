@@ -233,7 +233,7 @@ NETMASK1=$TINKERBELL_NETMASK
 EOF
 	)
 
-	cfgfile="/etc/sysconfig/network-scripts/ifcfg-$TINKERBELL_NETWORK_INTERFACE"
+	local cfgfile="/etc/sysconfig/network-scripts/ifcfg-$TINKERBELL_NETWORK_INTERFACE"
 
 	if [ -f "$cfgfile" ]; then
 		echo "$ERR network config already exists: $cfgfile"
