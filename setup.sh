@@ -37,7 +37,7 @@ BLANK="      "
 NEXT="${GREEN}NEXT:$RESET"
 
 get_distribution() (
-	lsb_dist=""
+	local lsb_dist=""
 	# Every system that we officially support has /etc/os-release
 	if [ -r /etc/os-release ]; then
 		# shellcheck disable=SC1091
